@@ -1,8 +1,8 @@
 {
   "name": "github-scoring",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Backend application for scoring github repositories",
+  "author": "Muhammad Kazim <kazim.homayee@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
