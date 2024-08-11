@@ -37,3 +37,15 @@ $ npm run test:cov
 ```
 
 ## Docker
+
+To build the docker image:
+
+```
+docker build -t github-scoring .
+```
+
+To run the docker image:
+
+```
+docker run 3000:3000 github-scoring
+```
