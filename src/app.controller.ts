@@ -7,7 +7,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    console.log('This is a test console log to check husky hooks');
-    return 1;
+    return this.appService.getHello();
   }
 }

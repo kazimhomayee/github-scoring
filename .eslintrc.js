@@ -20,5 +20,19 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'camelcase' : ['warn', {
+      properties : 'never'
+    }],
+    'default-case' : 'warn',
+    'eqeqeq' : 'error',
+    'no-eq-null': 'error',
+    'no-fallthrough' : 'warn',
+    'no-param-reassign' : 'error',
+    'no-return-await' : 'warn',
+    'no-self-compare' : 'error',
+    'no-useless-rename' : 'warn',
+    'no-with' : 'error',
+    'prefer-template': 'warn',
+    'require-await' : 'warn'
   },
 };
