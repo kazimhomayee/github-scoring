@@ -26,7 +26,6 @@ describe('HttpClientService', () => {
 
     service = module.get<HttpClientService>(HttpClientService);
     httpService = module.get<HttpService>(HttpService);
-
   });
 
   it('should be defined', () => {
@@ -34,36 +33,40 @@ describe('HttpClientService', () => {
   });
 
   it('should call get method with required parameters', async () => {
-
     const url = 'https://api.github.com/search/repositories';
     const headers = {
       Authorization: `Bearer sometoken`,
       Accept: 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28'
-    }
+      'X-GitHub-Api-Version': '2022-11-28',
+    };
 
-    jest.spyOn(httpService.axiosRef, 'get').mockImplementationOnce(() => Promise.resolve({}));
+    jest
+      .spyOn(httpService.axiosRef, 'get')
+      .mockImplementationOnce(() => Promise.resolve({}));
 
     const params = { q: 'value' };
 
     await service.get(params);
-    
-    expect(httpService.axiosRef.get).toHaveBeenCalledWith(url, { params, headers });
+
+    expect(httpService.axiosRef.get).toHaveBeenCalledWith(url, {
+      params,
+      headers,
+    });
   });
 
   it('should throw error on failed request', async () => {
-
     const errorResponse = {
       response: { status: 500, data: { message: 'Internal server error' } },
     };
 
-    jest.spyOn(httpService.axiosRef, 'get').mockImplementationOnce(() => Promise.reject(errorResponse));
+    jest
+      .spyOn(httpService.axiosRef, 'get')
+      .mockImplementationOnce(() => Promise.reject(errorResponse));
 
     const params = { q: 'value' };
 
     await expect(service.get(params)).rejects.toThrow(
-      new HttpException('Internal server error', 500)
+      new HttpException('Internal server error', 500),
     );
-
   });
 });
