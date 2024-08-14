@@ -5,9 +5,14 @@ import { ConfigService } from '@nestjs/config';
 export class ScoringService {
   private readonly logger = new Logger(ScoringService.name);
 
-  private readonly earliestRepositoryDate: string = this.configService.get<string>('REPOSITORY_CREATED_BEFORE_DATE');
-  private readonly maxStars: string = this.configService.get<string>('REPOSITORY_MAX_STARS');
-  private readonly maxForks: string = this.configService.get<string>('REPOSITORY_MAX_FORKS');
+  private readonly earliestRepositoryDate: string =
+    this.configService.get<string>('REPOSITORY_CREATED_BEFORE_DATE');
+  private readonly maxStars: string = this.configService.get<string>(
+    'REPOSITORY_MAX_STARS',
+  );
+  private readonly maxForks: string = this.configService.get<string>(
+    'REPOSITORY_MAX_FORKS',
+  );
 
   constructor(private readonly configService: ConfigService) {}
 

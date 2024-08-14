@@ -56,7 +56,9 @@ describe('ScoringService', () => {
     });
 
     it('should return 0 when the update date is the earliest date in the dataset', () => {
-      const updatedAt = new Date(configService.get<number>('REPOSITORY_CREATED_BEFORE_DATE'));
+      const updatedAt = new Date(
+        configService.get<number>('REPOSITORY_CREATED_BEFORE_DATE'),
+      );
       const score = service.calculateRepositoryScoreByRecentUpdates(updatedAt);
       expect(score).toBe(0);
     });
@@ -75,7 +77,9 @@ describe('ScoringService', () => {
     it('should return the min average score of the star, fork, and recent update scores', () => {
       const stars = 0; // max stars
       const forks = 0; // max forks
-      const updatedAt = new Date(configService.get<number>('REPOSITORY_CREATED_BEFORE_DATE')); // updated today
+      const updatedAt = new Date(
+        configService.get<number>('REPOSITORY_CREATED_BEFORE_DATE'),
+      ); // updated today
 
       const score = service.calculateRepositoryScore(stars, forks, updatedAt);
 
