@@ -1,12 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ScoringService {
   private readonly logger = new Logger(ScoringService.name);
 
-  constructor() {
-    // TODOL: Inject the ConfigService to get the max stars and forks in the dataset
-  }
+  private readonly earliestRepositoryDate: string = this.configService.get<string>('REPOSITORY_CREATED_BEFORE_DATE');
+  private readonly maxStars: string = this.configService.get<string>('REPOSITORY_MAX_STARS');
+  private readonly maxForks: string = this.configService.get<string>('REPOSITORY_MAX_FORKS');
+
+  constructor(private readonly configService: ConfigService) {}
 
   // Calculate the score of a repository based on its stars, forks and recent updates
   calculateRepositoryScore(
@@ -27,20 +30,20 @@ export class ScoringService {
 
   // Calculate the score of a repository based on its stars to a value between 0 and 100
   calculateRepositoryScoreByStars(stars: number): number {
-    const maxStarsInDateset = 49259; // temporary static value
+    const maxStarsInDateset: number = parseInt(this.maxStars); // temporary static value
     this.logger.debug(`Max stars in dataset: ${maxStarsInDateset}`);
     return this.normalizeScore(stars, maxStarsInDateset);
   }
 
   // Calculate the score of a repository based on its forks to a value between 0 and 100
   calculateRepositoryScoreByForks(forks: number): number {
-    const maxForksInDateset = 20509; // temporary static value
+    const maxForksInDateset: number = parseInt(this.maxForks); // temporary static value
     this.logger.debug(`Max forks in dataset: ${maxForksInDateset}`);
     return this.normalizeScore(forks, maxForksInDateset);
   }
 
   calculateRepositoryScoreByRecentUpdates(updatedAt: Date): number {
-    const earliestDate = new Date('2021-01-01');
+    const earliestDate = new Date(this.earliestRepositoryDate);
     const currentDate = new Date();
 
     this.logger.debug(`Earliest created date configured: ${earliestDate}`);

@@ -1,15 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ScoringService } from './scoring.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 describe('ScoringService', () => {
   let service: ScoringService;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigModule.forRoot({ envFilePath: '.env.test' })],
       providers: [ScoringService],
     }).compile();
 
     service = module.get<ScoringService>(ScoringService);
+    configService = module.get<ConfigService>(ConfigService);
   });
 
   it('should be defined', () => {
@@ -18,7 +22,7 @@ describe('ScoringService', () => {
 
   describe('calculateRepositoryScoreByStars', () => {
     it('should return 100 when the number of stars equals the maxStarsInDataset', () => {
-      const stars = 49259;
+      const stars = configService.get<number>('REPOSITORY_MAX_STARS');
       const score = service.calculateRepositoryScoreByStars(stars);
       expect(score).toBe(100);
     });
@@ -32,7 +36,7 @@ describe('ScoringService', () => {
 
   describe('calculateRepositoryScoreByForks', () => {
     it('should return 100 when the number of forks equals the maxForksInDataset', () => {
-      const forks = 20509;
+      const forks = configService.get<number>('REPOSITORY_MAX_FORKS');
       const score = service.calculateRepositoryScoreByForks(forks);
       expect(score).toBe(100);
     });
@@ -52,15 +56,15 @@ describe('ScoringService', () => {
     });
 
     it('should return 0 when the update date is the earliest date in the dataset', () => {
-      const updatedAt = new Date('2021-01-01');
+      const updatedAt = new Date(configService.get<number>('REPOSITORY_CREATED_BEFORE_DATE'));
       const score = service.calculateRepositoryScoreByRecentUpdates(updatedAt);
       expect(score).toBe(0);
     });
   });
   describe('calculateRepositoryScore', () => {
     it('should return the max average score of the star, fork, and recent update scores', () => {
-      const stars = 49259; // max stars
-      const forks = 20509; // max forks
+      const stars = configService.get<number>('REPOSITORY_MAX_STARS'); // max stars
+      const forks = configService.get<number>('REPOSITORY_MAX_FORKS'); // max forks
       const updatedAt = new Date(); // updated today
 
       const score = service.calculateRepositoryScore(stars, forks, updatedAt);
@@ -71,7 +75,7 @@ describe('ScoringService', () => {
     it('should return the min average score of the star, fork, and recent update scores', () => {
       const stars = 0; // max stars
       const forks = 0; // max forks
-      const updatedAt = new Date('2021-01-01'); // updated today
+      const updatedAt = new Date(configService.get<number>('REPOSITORY_CREATED_BEFORE_DATE')); // updated today
 
       const score = service.calculateRepositoryScore(stars, forks, updatedAt);
 
