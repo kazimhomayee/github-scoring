@@ -55,7 +55,7 @@ export class ScoringService {
 
     // Calculate the score based on the difference between the current date and the last update date
     return this.normalizeScore(
-      this.differenceInDays(earliestDate, updatedAt),
+      this.differenceInDays(earliestDate, new Date(updatedAt)),
       this.differenceInDays(earliestDate, currentDate),
     );
   }
