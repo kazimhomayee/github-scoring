@@ -1,4 +1,4 @@
-interface GithubResponse {
+export interface GithubResponse {
   total_count: number;
   incomplete_results: boolean;
   items: Array<{
@@ -7,5 +7,8 @@ interface GithubResponse {
     full_name: string;
     private: boolean;
     score?: number;
+    stargazers_count: number;
+    forks_count: number;
+    updated_at: string;
   }>;
 }

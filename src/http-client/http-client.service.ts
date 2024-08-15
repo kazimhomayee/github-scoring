@@ -14,17 +14,7 @@ export class HttpClientService {
   constructor(
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
-  ) {
-    if (!this.GITHUB_API_URL) {
-      throw new Error('GITHUB_API_URL is not defined');
-    }
-
-    if (!this.githubToken) {
-      throw new Error(
-        'Github token is missing. Please set it in the environment variables',
-      );
-    }
-  }
+  ) {}
 
   async get<T>(params?: any): Promise<T> {
     this.logger.debug('Get request to Github API');
