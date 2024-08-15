@@ -49,3 +49,18 @@ To run the docker image:
 ```
 docker run 3000:3000 github-scoring
 ```
+
+### Running Redis with Docker
+
+To start the Redis with Docker, you need the Docker app first.
+
+[Docker download page](https://www.docker.com/products/docker-desktop).
+
+In the root directory you will find a "docker-compose.yml" file. Then open a terminal and execute the following command to start the Redis:
+```
+docker-compose up -d
+```
+And to close the Redis again:
+```
+docker-compose down
+```
