@@ -29,12 +29,16 @@ $ npm run start:prod
 # unit tests
 $ npm run test
 
-# e2e tests
-$ npm run test:e2e
-
 # test coverage
 $ npm run test:cov
 ```
+
+## Usage
+
+Step 1: Create .env file (reference .env.test)
+Step 2: Configure repository search language and earliest date using this end point: github/config/{language}/{YYYY-MM-DD}
+Step 3: Fetch github scoring using this end point: /github/scoring
+Step 4 (optiona): Other query parms like query = {keyword}, sort etc can be used as query parameter on /github/scoring
 
 ## Docker
 

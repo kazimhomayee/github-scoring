@@ -1,4 +1,10 @@
-import { IsString, IsOptional, IsDate, IsDateString } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsDate,
+  IsDateString,
+  IsNumber,
+} from 'class-validator';
 
 export class SearchRepositoriesDto {
   @IsOptional()
@@ -8,6 +14,14 @@ export class SearchRepositoriesDto {
   @IsOptional()
   @IsString()
   sort?: 'updated' | 'stars' | 'forks' | 'help-wanted-issues';
+
+  @IsOptional()
+  @IsNumber()
+  per_page?: number;
+
+  @IsOptional()
+  @IsNumber()
+  page?: number;
 
   @IsOptional()
   @IsString()
