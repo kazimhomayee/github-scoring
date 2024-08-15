@@ -29,25 +29,30 @@ export class HttpClientService {
   async get<T>(params?: any): Promise<T> {
     this.logger.debug('Get request to Github API');
     const headers = this.getHeaders();
-    const SEARCH_URI = 'search/repositories';
-    const URL = `${this.GITHUB_API_URL}${SEARCH_URI}?q=${params.q}&sort=${
-      params.sort ? params.sort : ''
-    }&order=${params.order ? params.order : ''}`;
     this.logger.debug(`Sending request to ${URL}`);
     try {
       const response: AxiosResponse<T> = await this.httpService.axiosRef.get(
-        URL,
+        this.searchUrlBuilder(params),
         {
           headers,
         },
       );
       return response.data;
     } catch (error) {
-      this.logger.error('Failed to get data from Github API', error.message);
       this.handleError(error);
     }
   }
 
+  private searchUrlBuilder(params: any): string {
+    const SEARCH_URI = 'search/repositories';
+    let URL = `${this.GITHUB_API_URL}${SEARCH_URI}?q=${params.q}`;
+    params.sort ? (URL += `&sort=${params.sort}`) : '';
+    params.order ? (URL += `&order=${params.order}`) : '';
+    params.per_page ? (URL += `&per_page=${params.per_page}`) : '';
+    params.page ? (URL += `&page=${params.page}`) : '';
+
+    return URL;
+  }
   private getHeaders() {
     return {
       Authorization: `Bearer ${this.githubToken}`,

@@ -32,8 +32,9 @@ describe('HttpClientService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should call get method with required parameters', async () => {
-    const url = 'https://api.github.com/search/repositories';
+  it('should call get method with all parameters', async () => {
+    const url =
+      'https://api.github.com/search/repositories?q=value&sort=stars&order=desc&per_page=10&page=1';
     const headers = {
       Authorization: `Bearer sometoken`,
       Accept: 'application/vnd.github+json',
@@ -44,12 +45,40 @@ describe('HttpClientService', () => {
       .spyOn(httpService.axiosRef, 'get')
       .mockImplementationOnce(() => Promise.resolve({}));
 
-    const params = { q: 'value' };
+    const params = {
+      q: 'value',
+      sort: 'stars',
+      order: 'desc',
+      per_page: 10,
+      page: 1,
+    };
 
     await service.get(params);
 
     expect(httpService.axiosRef.get).toHaveBeenCalledWith(url, {
-      params,
+      headers,
+    });
+  });
+
+  it('should call get method with required parameters', async () => {
+    const url = 'https://api.github.com/search/repositories?q=value';
+    const headers = {
+      Authorization: `Bearer sometoken`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+    };
+
+    jest
+      .spyOn(httpService.axiosRef, 'get')
+      .mockImplementationOnce(() => Promise.resolve({}));
+
+    const params = {
+      q: 'value',
+    };
+
+    await service.get(params);
+
+    expect(httpService.axiosRef.get).toHaveBeenCalledWith(url, {
       headers,
     });
   });
