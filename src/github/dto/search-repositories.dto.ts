@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsDate } from 'class-validator';
+import { IsString, IsOptional, IsDate, IsDateString } from 'class-validator';
 
 export class SearchRepositoriesDto {
   @IsOptional()
@@ -16,6 +16,6 @@ export class SearchRepositoriesDto {
   @IsString()
   language: string;
 
-  @IsDate()
-  createdBefore: Date;
+  @IsDateString()
+  createdBefore: string;
 }

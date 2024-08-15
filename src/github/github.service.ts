@@ -31,10 +31,10 @@ export class GithubService {
   }
 
   async scoreRepositories() {
-    const SearchRepositoriesDto: SearchRepositoriesDto = { 
+    const SearchRepositoriesDto: SearchRepositoriesDto = {
       language: 'TypeScript',
-      createdBefore: "2024-01-01",
-    }
+      createdBefore: '2024-01-01',
+    };
 
     const result = await this.searchRepositories(SearchRepositoriesDto);
     return await this.transformedResponse(result);

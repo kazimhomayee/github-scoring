@@ -15,12 +15,14 @@ export class HttpClientService {
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
   ) {
-    if(!this.GITHUB_API_URL){
+    if (!this.GITHUB_API_URL) {
       throw new Error('GITHUB_API_URL is not defined');
     }
 
-    if(!this.githubToken){
-      throw new Error('Github token is missing. Please set it in the environment variables');
+    if (!this.githubToken) {
+      throw new Error(
+        'Github token is missing. Please set it in the environment variables',
+      );
     }
   }
 
@@ -28,7 +30,9 @@ export class HttpClientService {
     this.logger.debug('Get request to Github API');
     const headers = this.getHeaders();
     const SEARCH_URI = 'search/repositories';
-    const URL = `${this.GITHUB_API_URL}${SEARCH_URI}?q=${params.q}&sort=${params.sort ? params.sort : ''}&order=${params.order ? params.order : ''}`;
+    const URL = `${this.GITHUB_API_URL}${SEARCH_URI}?q=${params.q}&sort=${
+      params.sort ? params.sort : ''
+    }&order=${params.order ? params.order : ''}`;
     this.logger.debug(`Sending request to ${URL}`);
     try {
       const response: AxiosResponse<T> = await this.httpService.axiosRef.get(
